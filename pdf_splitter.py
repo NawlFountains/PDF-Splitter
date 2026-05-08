@@ -1,4 +1,6 @@
 import os
+import argparse
+from pathlib import Path
 from pypdf import PdfReader, PdfWriter
 
 def split_pdf(original_pdf, start_page, end_page):
@@ -14,25 +16,13 @@ def split_pdf(original_pdf, start_page, end_page):
     with open(output_name, "wb") as out:
         writer.write(out)
     
+    print(f"Saved pdf {output_name}")
+    
 
-input_pdf = "2003.08934v2.pdf"
-start_page = 5
-end_page = 10
-split_pdf(input_pdf,start_page, end_page)
-# while i < len(sys.argv):
-#     if sys.argv[i] == '-help' or sys.argv[i] == '-h':
-#         print('\nCommand list:\n -h: Help command \n -u <url> of the video to download\n -itag <number> number of itag to download\n')
-#         command_help = True
-#     elif sys.argv[i] == '-f':
-#         try:
-#             start_page = sys.argv[i+1]
-#             i = i + 1
-#             show_options = False
-#         except:
-#             show_options = True
-#     elif sys.argv[i] == '-s':
-#         try:
-#             url = sys.argv[i+1]
-#         except:
-#             print('Please specify an url after the -u parameter')
-#     i = i + 1
+parser = argparse.ArgumentParser(description="Split a PDF by page range")
+parser.add_argument("pdf", help="Path to the input PDF file")
+parser.add_argument("start", type=int, help="Start page number")
+parser.add_argument("end", type=int, help="End page number")
+args = parser.parse_args()
+
+split_pdf(args.pdf, args.start, args.end)
